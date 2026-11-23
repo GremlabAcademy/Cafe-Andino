@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Café Origen Andino | Café de Especialidad & Suscripciones</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,600;0,700;1,400&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            dark: '#1C1315',      // Deep roasted coffee black/brown
+                            brown: '#2C1A1D',     // Rich espresso brown
+                            medium: '#4A2E2B',    // Medium roast brown
+                            accent: '#E07A5F',    // Warm terracotta orange
+                            gold: '#D4A373',      // Caramel gold tag
+                            cream: '#FDFBF7',     // Soft warm background
+                            card: '#FAFAF8',      // Card background
+                            green: '#3D5A80'      // Eco/Organic detail
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Outfit', 'sans-serif'],
+                        serif: ['Playfair Display', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Custom scrollbar for smooth feel */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #FDFBF7;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #D4A373;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #E07A5F;
+        }
+        .badge-pulse {
+            animation: pulse-ring 2s infinite;
+        }
+        @keyframes pulse-ring {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(224, 122, 95, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 8px rgba(224, 122, 95, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(224, 122, 95, 0); }
+        }
+    </style>
+</head>
+<body class="bg-brand-cream text-gray-800 font-sans antialiased selection:bg-brand-accent selection:text-white min-h-screen flex flex-col">
+
+    <!-- TOP ANNOUNCEMENT BAR -->
+    <div class="bg-brand-dark text-brand-gold text-xs font-medium py-2 px-4 text-center tracking-wide flex justify-between items-center px-6 sm:px-12">
+        <span class="hidden md:inline"><i class="fa-solid fa-fire-flame-curved text-brand-accent mr-1.5"></i> Tostado artesanal fresco garantizado esta semana</span>
+        <span class="w-full md:w-auto text-center"><i class="fa-solid fa-truck-fast text-brand-accent mr-1"></i> Envío GRATIS en Perú por compras mayores a S/150</span>
+        <span class="hidden lg:inline"><i class="fa-brands fa-whatsapp mr-1 text-green-400"></i> Pedidos WhatsApp: +51 925 892 679</span>
+    </div>
+
+    <!-- MAIN HEADER (INSPIRED BY REFERENCE IMAGE) -->
+    <header class="sticky top-0 z-30 bg-white shadow-sm border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between gap-4">
+            
+            <!-- Logo -->
+            <a href="#" class="flex items-center gap-2 text-brand-dark group">
+                <div class="w-10 h-10 rounded-full bg-brand-brown text-brand-gold flex items-center justify-center font-serif font-bold text-xl group-hover:bg-brand-accent transition-colors">
+                    <i class="fa-solid fa-mug-hot"></i>
+                </div>
+                <div>
+                    <span class="font-serif text-xl sm:text-2xl font-bold tracking-tight block leading-none text-brand-dark">CAFÉ ORIGEN</span>
+                    <span class="text-[10px] tracking-widest text-brand-gold uppercase font-semibold block mt-0.5">Andino • Specialty Coffee</span>
+                </div>
+            </a>
+
+            <!-- Navigation Links -->
+            <nav class="hidden md:flex items-center space-x-7 text-sm font-semibold tracking-wide">
+                <a href="#" class="text-brand-accent border-b-2 border-brand-accent pb-1">INICIO</a>
+                <a href="#nosotros" class="text-gray-600 hover:text-brand-accent transition-colors pb-1">NOSOTROS</a>
+                <a href="#tienda" class="text-gray-600 hover:text-brand-accent transition-colors pb-1">PRODUCTOS</a>
+                <a href="#suscripcion" class="text-gray-600 hover:text-brand-accent transition-colors pb-1 flex items-center gap-1">
+                    SUSCRIPCIÓN <span class="bg-brand-accent text-white text-[9px] px-1.5 py-0.5 rounded font-bold uppercase">Home Office</span>
+                </a>
+                <a href="#contacto" class="text-gray-600 hover:text-brand-accent transition-colors pb-1">CONTACTO</a>
+            </nav>
+
+            <!-- Search Bar & User Actions -->
+            <div class="flex items-center gap-3 sm:gap-4">
+                <!-- Search Input -->
+                <div class="relative hidden sm:block w-48 lg:w-64">
+                    <input type="text" id="searchInput" onkeyup="filterProducts()" placeholder="Buscar producto o grinder..." 
+                        class="w-full pl-3 pr-10 py-1.5 text-sm bg-gray-50 border border-gray-200 rounded-full focus:outline-none focus:border-brand-accent focus:bg-white transition-all">
+                    <button class="absolute right-1 top-1/2 -translate-y-1/2 w-7 h-7 bg-brand-accent text-white rounded-full flex items-center justify-center hover:bg-brand-medium transition-colors">
+                        <i class="fa-solid fa-magnifying-glass text-xs"></i>
+                    </button>
+                </div>
+
+                <!-- User Account -->
+                <button class="p-2 text-gray-700 hover:text-brand-accent rounded-full hover:bg-gray-100 transition-colors" title="Mi Cuenta">
+                    <i class="fa-regular fa-user text-lg"></i>
+                </button>
+
+                <!-- Cart Counter Button (Reference match: Cart icon + Total Price counter) -->
+                <button onclick="toggleCart()" class="flex items-center gap-2 bg-brand-cream border border-brand-gold/40 hover:border-brand-accent px-3 py-1.5 rounded-full transition-all text-brand-dark group">
+                    <div class="relative">
+                        <i class="fa-solid fa-cart-shopping text-brand-brown group-hover:text-brand-accent text-lg"></i>
+                        <span id="cartCount" class="absolute -top-2 -right-2 bg-brand-accent text-white text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center">0</span>
+                    </div>
+                    <span id="cartHeaderTotal" class="font-bold text-sm text-brand-dark">S/0.00</span>
+                </button>
+
+                <!-- Mobile Menu Button -->
+                <button onclick="toggleMobileNav()" class="md:hidden p-2 text-gray-700 hover:text-brand-accent">
+                    <i class="fa-solid fa-bars text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Mobile Navigation Menu -->
+        <div id="mobileNav" class="hidden md:hidden border-t border-gray-100 bg-white px-4 py-3 space-y-2">
+            <input type="text" onkeyup="filterProducts()" placeholder="Buscar producto..." class="w-full px-3 py-2 text-sm bg-gray-50 border rounded-md mb-2">
+            <a href="#" class="block text-brand-accent font-semibold py-1">Inicio</a>
+            <a href="#nosotros" class="block text-gray-700 py-1">Nosotros</a>
+            <a href="#tienda" class="block text-gray-700 py-1">Productos</a>
+            <a href="#suscripcion" class="block text-gray-700 py-1">Suscripción Home Office</a>
+            <a href="#contacto" class="block text-gray-700 py-1">Contacto</a>
+        </div>
+    </header>
+
+    <!-- HERO / BANNER SECTION (MATCHING ARTE CAFÉ VIBE) -->
+    <section class="relative bg-brand-dark text-white overflow-hidden">
+        <!-- Background Image with Overlay -->
+        <div class="absolute inset-0 z-0 opacity-40 bg-cover bg-center" 
+             style="background-image: url('https://images.unsplash.com/photo-1447933601403-0c6688de566e?auto=format&fit=crop&w=1600&q=80');">
+        </div>
+        <div class="absolute inset-0 bg-gradient-to-r from-brand-dark via-brand-dark/90 to-transparent z-0"></div>
+
+        <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 md:py-20 flex flex-col md:flex-row items-center justify-between gap-8">
+            <div class="max-w-2xl space-y-4 text-center md:text-left">
+                <span class="inline-block bg-brand-accent/20 text-brand-gold border border-brand-gold/30 px-3 py-1 rounded-full text-xs font-semibold uppercase tracking-wider">
+                    <i class="fa-solid fa-mountain mr-1"></i> Origen 100% Peruano • Cuzco & Villa Rica
+                </span>
+                <h1 class="font-serif text-3xl sm:text-5xl lg:text-6xl font-bold leading-tight">
+                    El Ritual de Tu Día <br>
+                    <span class="text-brand-gold italic">Recién Tostado en Tu Mesa</span>
+                </h1>
+                <p class="text-gray-300 text-sm sm:text-base max-w-xl">
+                    Selección artesanal de cafés de especialidad orgánicos puntuados +85 SCA. Perfectos para potenciar la concentración en tus jornadas de teletrabajo.
+                </p>
+                <div class="pt-2 flex flex-wrap gap-4 justify-center md:justify-start">
+                    <a href="#hero-pack" class="bg-brand-accent hover:bg-brand-gold hover:text-brand-dark text-white font-bold px-6 py-3 rounded-full transition-all shadow-lg shadow-brand-accent/30 flex items-center gap-2 text-sm">
+                        <i class="fa-solid fa-box-open"></i> Ver Pack Degustación
+                    </a>
+                    <a href="#suscripcion" class="bg-white/10 backdrop-blur-sm hover:bg-white/20 border border-white/30 text-white font-semibold px-6 py-3 rounded-full transition-all text-sm flex items-center gap-2">
+                        <i class="fa-solid fa-calendar-check text-brand-gold"></i> Suscripción Mensual
+                    </a>
+                </div>
+            </div>
+
+            <!-- Trust Badges Overlay Card -->
+            <div class="bg-white/10 backdrop-blur-md border border-white/15 p-5 rounded-2xl max-w-xs w-full text-center space-y-4 text-xs">
+                <div class="flex items-center justify-around border-b border-white/10 pb-3">
+                    <div>
+                        <p class="text-xl font-bold text-brand-gold font-serif">+85 SCA</p>
+                        <p class="text-gray-300 text-[10px]">Puntaje Especialidad</p>
+                    </div>
+                    <div class="h-8 w-px bg-white/20"></div>
+                    <div>
+                        <p class="text-xl font-bold text-brand-gold font-serif">100%</p>
+                        <p class="text-gray-300 text-[10px]">Orgánico Certificado</p>
+                    </div>
+                </div>
+                <div class="space-y-2 text-left">
+                    <div class="flex items-center gap-2.5 text-gray-200">
+                        <i class="fa-solid fa-circle-check text-brand-accent"></i>
+                        <span>Tostado semanal bajo demanda</span>
+                    </div>
+                    <div class="flex items-center gap-2.5 text-gray-200">
+                        <i class="fa-solid fa-circle-check text-brand-accent"></i>
+                        <span>Molienda personalizada (Prensa/Filtro)</span>
+                    </div>
+                    <div class="flex items-center gap-2.5 text-gray-200">
+                        <i class="fa-solid fa-circle-check text-brand-accent"></i>
+                        <span>Ideal para Home Office y Baristas</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BREADCRUMB & TOOLBAR -->
+    <div class="bg-white border-b border-gray-200 py-3">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs sm:text-sm text-gray-500">
+            <div>
+                <span class="hover:text-brand-accent cursor-pointer">Inicio</span> / <span class="text-brand-dark font-semibold">Tienda Gourmet</span>
+            </div>
+            <div class="flex items-center gap-4">
+                <span id="productCounterText">Mostrando 8 productos gourmet</span>
+                <div class="flex items-center gap-2 border-l border-gray-200 pl-4">
+                    <label for="sortSelect" class="font-medium text-gray-700">Ordenar:</label>
+                    <select id="sortSelect" onchange="sortProducts()" class="bg-gray-50 border border-gray-200 rounded px-2 py-1 text-xs focus:outline-none">
+                        <option value="featured">Destacados</option>
+                        <option value="price-low">Precio: Menor a Mayor</option>
+                        <option value="price-high">Precio: Mayor a Menor</option>
+                        <option value="rating">Mejor Valorados</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MAIN SHOP CONTENT AREA (SIDEBAR + PRODUCT GRID) -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-grow">
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            
+            <!-- SIDEBAR CATEGORIES FILTER (REFERENCE STRUCTURE) -->
+            <aside class="space-y-6">
+                <!-- Category Filter Box -->
+                <div class="bg-white p-5 rounded-xl border border-gray-100 shadow-sm">
+                    <h3 class="font-serif text-lg font-bold text-brand-dark border-b border-gray-100 pb-3 mb-4 uppercase tracking-wider flex justify-between items-center">
+                        CATEGORÍAS
+                        <i class="fa-solid fa-filter text-xs text-brand-accent"></i>
+                    </h3>
+                    <ul class="space-y-2 text-sm" id="categoryList">
+                        <li>
+                            <button onclick="setCategory('all')" class="cat-btn w-full text-left py-1.5 px-2.5 rounded font-semibold text-brand-accent bg-brand-cream transition-colors flex items-center justify-between" data-cat="all">
+                                <span>Todos los Productos</span>
+                                <span class="text-xs bg-brand-accent/10 text-brand-accent px-1.5 py-0.5 rounded-full">8</span>
+                            </button>
+                        </li>
+                        <li>
+                            <button onclick="setCategory('pack')" class="cat-btn w-full text-left py-1.5 px-2.5 rounded text-gray-700 hover:bg-brand-cream hover:text-brand-accent transition-colors flex items-center justify-between" data-cat="pack">
+                                <span>Pack Degustación</span>
+                                <span class="bg-brand-accent text-white text-[10px] font-bold px-1.5 py-0.5 rounded">OFERTA</span>
+                            </button>
+                        </li>
+                        <li>
+                            <button onclick="setCategory('cafes')" class="cat-btn w-full text-left py-1.5 px-2.5 rounded text-gray-700 hover:bg-brand-cream hover:text-brand-accent transition-colors flex items-center justify-between" data-cat="cafes">
+                                <span>Cafés de Especialidad</span>
+                                <span class="text-xs text-gray-400">3</span>
+                            </button>
+                        </li>
+                        <li>
+                            <button onclick="setCategory('cafeteras')" class="cat-btn w-full text-left py-1.5 px-2.5 rounded text-gray-700 hover:bg-brand-cream hover:text-brand-accent transition-colors flex items-center justify-between" data-cat="cafeteras">
+                                <span>Cafeteras & Prensa</span>
+                                <span class="text-xs text-gray-400">2</span>
+                            </button>
+                        </li>
+                        <li>
+                            <button onclick="setCategory('suscripcion')" class="cat-btn w-full text-left py-1.5 px-2.5 rounded text-gray-700 hover:bg-brand-cream hover:text-brand-accent transition-colors flex items-center justify-between" data-cat="suscripcion">
+                                <span>Suscripciones Mensuales</span>
+                                <span class="text-xs text-gray-400">1</span>
+                            </button>
+                        </li>
+                        <li>
+                            <button onclick="setCategory('accesorios')" class="cat-btn w-full text-left py-1.5 px-2.5 rounded text-gray-700 hover:bg-brand-cream hover:text-brand-accent transition-colors flex items-center justify-between" data-cat="accesorios">
+                                <span>Accesorios Barista</span>
+                                <span class="text-xs text-gray-400">1</span>
+                            </button>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Grind Option Quick Filter -->
+                <div class="bg-white p-5 rounded-xl border border-gray-100 shadow-sm">
+                    <h4 class="font-serif text-sm font-bold text-brand-dark mb-3">TIPO DE PRESENTACIÓN</h4>
+                    <div class="space-y-2 text-xs">
+                        <label class="flex items-center gap-2 cursor-pointer text-gray-700 hover:text-brand-dark">
+                            <input type="radio" name="grindFilter" value="all" checked onchange="filterProducts()" class="accent-brand-accent">
+                            <span>Todos los tipos</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer text-gray-700 hover:text-brand-dark">
+                            <input type="radio" name="grindFilter" value="grano" onchange="filterProducts()" class="accent-brand-accent">
+                            <span>En Grano Entero</span>
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer text-gray-700 hover:text-brand-dark">
+                            <input type="radio" name="grindFilter" value="molido" onchange="filterProducts()" class="accent-brand-accent">
+                            <span>Molido (Prensa / Filtro / Espresso)</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Home Office Promo Widget -->
+                <div class="bg-gradient-to-br from-brand-brown to-brand-dark text-white p-5 rounded-2xl shadow-lg relative overflow-hidden border border-brand-gold/30">
+                    <div class="absolute -right-4 -bottom-4 opacity-10 text-brand-gold text-8xl">
+                        <i class="fa-solid fa-laptop-code"></i>
+                    </div>
+                    <span class="text-[10px] font-bold uppercase tracking-widest text-brand-gold bg-brand-gold/20 px-2 py-0.5 rounded border border-brand-gold/30">Home Office Special</span>
+                    <h4 class="font-serif font-bold text-lg mt-2 mb-1">¿Trabajas desde casa?</h4>
+                    <p class="text-xs text-gray-300 mb-4 leading-relaxed">
+                        Asegura tu suministro constante de energía limpia. Mantén la concentración en tus proyectos remotas.
+                    </p>
+                    <button onclick="setCategory('suscripcion')" class="w-full bg-brand-accent hover:bg-brand-gold hover:text-brand-dark text-white text-xs font-bold py-2 rounded-lg transition-colors">
+                        Ver Suscripción Barista
+                    </button>
+                </div>
+            </aside>
+
+            <!-- PRODUCT CATALOG GRID -->
+            <div class="lg:col-span-3 space-y-8">
+                
+                <!-- CAMPAIGN HERO PRODUCT (FEATURED PACK DEGUSTACIÓN) -->
+                <div id="hero-pack" class="bg-white rounded-2xl border-2 border-brand-accent/40 p-6 shadow-md hover:shadow-xl transition-all relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-brand-accent text-white font-bold text-xs px-4 py-1.5 rounded-bl-xl uppercase tracking-wider shadow-sm badge-pulse">
+                        <i class="fa-solid fa-star mr-1"></i> Oferta de Lanzamiento Campaign
+                    </div>
+
+                    <div class="grid grid-cols-1 md:grid-cols-12 gap-6 items-center">
+                        <!-- Product Visual -->
+                        <div class="md:col-span-5 relative group">
+                            <img src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=800&q=80" 
+                                 alt="Pack Degustación Origen Andino" 
+                                 class="w-full h-64 object-cover rounded-xl shadow-inner group-hover:scale-105 transition-transform duration-300">
+                            <span class="absolute bottom-3 left-3 bg-brand-dark/80 backdrop-blur-md text-brand-gold text-[11px] font-semibold px-2.5 py-1 rounded-md">
+                                Includes 3 Single Origins + Option French Press
+                            </span>
+                        </div>
+
+                        <!-- Product Specs -->
+                        <div class="md:col-span-7 space-y-3">
+                            <div class="flex items-center gap-2">
+                                <span class="bg-brand-gold/20 text-brand-brown text-xs font-bold px-2 py-0.5 rounded">EDICIÓN ESPECIAL</span>
+                                <div class="flex text-amber-400 text-xs">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <span class="text-gray-500 font-normal ml-1">(48 valoraciones)</span>
+                                </div>
+                            </div>
+
+                            <h2 class="font-serif text-2xl sm:text-3xl font-bold text-brand-dark">
+                                Pack Degustación Origen Andino
+                            </h2>
+
+                            <p class="text-gray-600 text-xs sm:text-sm leading-relaxed">
+                                El kit definitivo para explorar el café peruano de alta montaña. Incluye 3 bolsas de 250g (Cuzco 88pts, Villa Rica 85pts, Chanchamayo 87pts) + opcional Prensa Francesa 800ml con 25% de descuento.
+                            </p>
+
+                            <!-- Options (Grind Selection) -->
+                            <div class="bg-brand-cream p-3 rounded-lg border border-gray-200/60 space-y-2">
+                                <label class="block text-xs font-bold text-brand-dark uppercase tracking-wider">
+                                    Selecciona Molienda:
+                                </label>
+                                <div class="grid grid-cols-2 gap-2 text-xs">
+                                    <label class="flex items-center gap-2 p-2 rounded bg-white border border-gray-200 cursor-pointer hover:border-brand-accent">
+                                        <input type="radio" name="heroGrind" value="Grano Entero" checked class="accent-brand-accent">
+                                        <span class="font-semibold">En Grano Entero</span>
+                                    </label>
+                                    <label class="flex items-center gap-2 p-2 rounded bg-white border border-gray-200 cursor-pointer hover:border-brand-accent">
+                                        <input type="radio" name="heroGrind" value="Molido Prensa Francesa" class="accent-brand-accent">
+                                        <span class="font-semibold">Molido (Prensa/Filtro)</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <!-- Pricing & Call to Action -->
+                            <div class="flex items-center justify-between pt-2">
+                                <div>
+                                    <span class="text-xs text-gray-400 line-through mr-2">S/ 120.00</span>
+                                    <span class="font-serif text-2xl font-bold text-brand-accent">S/ 89.00</span>
+                                    <span class="text-[10px] text-green-600 font-bold block">Ahorras S/ 31.00</span>
+                                </div>
+
+                                <button onclick="addHeroProductToCart()" class="bg-brand-accent hover:bg-brand-medium text-white font-bold px-6 py-3 rounded-xl shadow-lg hover:shadow-xl transition-all flex items-center gap-2 text-sm">
+                                    <i class="fa-solid fa-cart-plus"></i> Añadir al Carrito
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DYNAMIC PRODUCTS GRID (MATCHING REFERENCE LIST LAYOUT) -->
+                <div>
+                    <h3 class="font-serif text-xl font-bold text-brand-dark mb-4 flex items-center gap-2">
+                        <span>Catálogo de Selección Gourmet</span>
+                        <div class="h-px bg-gray-200 flex-grow"></div>
+                    </h3>
+
+                    <div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        <!-- JS populated products go here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- HOME OFFICE & QUALITY BENEFIT BANNER -->
+    <section class="bg-brand-brown text-white py-12 border-t border-b border-brand-gold/20 my-12" id="nosotros">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-2xl mx-auto mb-10">
+                <span class="text-brand-gold font-serif italic text-sm">Diseñado para amantes del buen café</span>
+                <h2 class="font-serif text-2xl sm:text-4xl font-bold mt-1">¿Por qué elegir Café Origen Andino?</h2>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6 text-center">
+                <div class="p-4 rounded-xl bg-white/5 border border-white/10 hover:border-brand-gold/40 transition-colors">
+                    <div class="w-12 h-12 mx-auto bg-brand-accent/20 text-brand-gold rounded-full flex items-center justify-center text-xl mb-3">
+                        <i class="fa-solid fa-fire text-brand-accent"></i>
+                    </div>
+                    <h3 class="font-serif font-bold text-base mb-1">Tostado Semanal</h3>
+                    <p class="text-xs text-gray-300">Tostamos en pequeños lotes todos los lunes para garantizar máxima frescura y aromas intensos.</p>
+                </div>
+
+                <div class="p-4 rounded-xl bg-white/5 border border-white/10 hover:border-brand-gold/40 transition-colors">
+                    <div class="w-12 h-12 mx-auto bg-brand-accent/20 text-brand-gold rounded-full flex items-center justify-center text-xl mb-3">
+                        <i class="fa-solid fa-leaf text-green-400"></i>
+                    </div>
+                    <h3 class="font-serif font-bold text-base mb-1">100% Orgánico</h3>
+                    <p class="text-xs text-gray-300">Cultivado bajo sombra por pequeños caficultores de Cusco, Chanchamayo y Villa Rica.</p>
+                </div>
+
+                <div class="p-4 rounded-xl bg-white/5 border border-white/10 hover:border-brand-gold/40 transition-colors">
+                    <div class="w-12 h-12 mx-auto bg-brand-accent/20 text-brand-gold rounded-full flex items-center justify-center text-xl mb-3">
+                        <i class="fa-solid fa-laptop-code text-brand-gold"></i>
+                    </div>
+                    <h3 class="font-serif font-bold text-base mb-1">Focus Home Office</h3>
+                    <p class="text-xs text-gray-300">Nivel óptimo de cafeína artesanal para potenciar tu productividad sin acidez agresiva.</p>
+                </div>
+
+                <div class="p-4 rounded-xl bg-white/5 border border-white/10 hover:border-brand-gold/40 transition-colors">
+                    <div class="w-12 h-12 mx-auto bg-brand-accent/20 text-brand-gold rounded-full flex items-center justify-center text-xl mb-3">
+                        <i class="fa-solid fa-box-open text-brand-accent"></i>
+                    </div>
+                    <h3 class="font-serif font-bold text-base mb-1">Suscripción Flexible</h3>
+                    <p class="text-xs text-gray-300">Recibe tu café cada mes en la puerta de tu casa u oficina con envío gratis. Pausa cuando quieras.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="bg-brand-dark text-gray-400 text-xs py-12 border-t border-brand-brown">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
+            <div class="space-y-3">
+                <div class="flex items-center gap-2 text-white font-serif font-bold text-lg">
+                    <i class="fa-solid fa-mug-hot text-brand-gold"></i>
+                    <span>CAFÉ ORIGEN ANDINO</span>
+                </div>
+                <p class="leading-relaxed">Tostaduría de café de especialidad peruano. Llevando el aroma de los Andes directo a tu taza.</p>
+                <div class="flex space-x-3 text-brand-gold text-base pt-2">
+                    <a href="#" class="hover:text-white"><i class="fa-brands fa-instagram"></i></a>
+                    <a href="#" class="hover:text-white"><i class="fa-brands fa-facebook"></i></a>
+                    <a href="#" class="hover:text-white"><i class="fa-brands fa-whatsapp"></i></a>
+                </div>
+            </div>
+
+            <div>
+                <h4 class="text-white font-bold font-serif text-sm mb-3 uppercase tracking-wider">Enlaces Rápidos</h4>
+                <ul class="space-y-2">
+                    <li><a href="#tienda" class="hover:text-brand-gold">Tienda Online</a></li>
+                    <li><a href="#hero-pack" class="hover:text-brand-gold">Pack Degustación</a></li>
+                    <li><a href="#suscripcion" class="hover:text-brand-gold">Suscripciones Home Office</a></li>
+                    <li><a href="#nosotros" class="hover:text-brand-gold">Métodos de Extracción</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-white font-bold font-serif text-sm mb-3 uppercase tracking-wider">Atención al Cliente</h4>
+                <ul class="space-y-2">
+                    <li><i class="fa-solid fa-location-dot mr-1.5 text-brand-accent"></i> Miraflores, Lima / Arequipa - Perú</li>
+                    <li><i class="fa-solid fa-envelope mr-1.5 text-brand-accent"></i> contacto@cafeorigenandino.pe</li>
+                    <li><i class="fa-brands fa-whatsapp mr-1.5 text-green-400"></i> +51 925 892 679</li>
+                    <li><i class="fa-solid fa-clock mr-1.5 text-brand-accent"></i> Lunes a Sábado: 8am - 7pm</li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-white font-bold font-serif text-sm mb-3 uppercase tracking-wider">Newsletter Gourmet</h4>
+                <p class="mb-3">Recibe un 10% de descuento en tu primera compra del Pack Degustación.</p>
+                <div class="flex">
+                    <input type="email" placeholder="Tu correo aquí..." class="w-full px-3 py-2 bg-brand-brown text-white rounded-l border border-brand-brown focus:outline-none text-xs">
+                    <button class="bg-brand-accent hover:bg-brand-gold text-white font-bold px-4 py-2 rounded-r transition-colors">
+                        <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-t border-white/10 pt-6 flex flex-col sm:flex-row justify-between items-center text-[11px]">
+            <p>© 2026 Café Origen Andino. Todos los derechos reservados.</p>
+            <div class="flex space-x-4 mt-2 sm:mt-0">
+                <span>Métodos de Pago: Yape • Plin • Visa • Mastercard</span>
+            </div>
+        </div>
+    </footer>
+
+    <!-- SLIDE-OVER SHOPPING CART DRAWER (INTERACTIVE MODAL) -->
+    <div id="cartDrawer" class="fixed inset-0 z-50 overflow-hidden hidden" aria-labelledby="slide-over-title" role="dialog" aria-modal="true">
+        <!-- Backdrop -->
+        <div id="cartBackdrop" onclick="toggleCart()" class="absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity duration-300"></div>
+
+        <div class="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
+            <div class="pointer-events-auto w-screen max-w-md transform transition-transform ease-in-out duration-300 bg-white shadow-2xl flex flex-col justify-between">
+                
+                <!-- Drawer Header -->
+                <div class="p-5 border-b border-gray-100 bg-brand-dark text-white flex items-center justify-between">
+                    <div class="flex items-center gap-2">
+                        <i class="fa-solid fa-bag-shopping text-brand-gold text-xl"></i>
+                        <h2 class="font-serif font-bold text-lg">Tu Carrito de Compra</h2>
+                    </div>
+                    <button onclick="toggleCart()" class="text-gray-300 hover:text-white text-lg p-1">
+                        <i class="fa-solid fa-xmark"></i>
+                    </button>
+                </div>
+
+                <!-- Free Shipping Progress Bar -->
+                <div class="bg-brand-cream px-5 py-3 border-b border-gray-200">
+                    <div class="flex justify-between text-xs font-semibold mb-1 text-brand-dark">
+                        <span id="freeShippingText">Faltan S/150.00 para Envío GRATIS</span>
+                        <span id="freeShippingPercent">0%</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2 overflow-hidden">
+                        <div id="freeShippingBar" class="bg-brand-accent h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+                    </div>
+                </div>
+
+                <!-- Cart Items Container -->
+                <div class="flex-grow overflow-y-auto p-5 space-y-4" id="cartItemsList">
+                    <!-- Dynamic cart items rendered here -->
+                </div>
+
+                <!-- Drawer Footer (Subtotal & Checkout) -->
+                <div class="p-5 border-t border-gray-200 bg-gray-50 space-y-3">
+                    <div class="space-y-1 text-sm text-gray-600">
+                        <div class="flex justify-between">
+                            <span>Subtotal</span>
+                            <span id="cartSubtotal" class="font-semibold text-gray-800">S/ 0.00</span>
+                        </div>
+                        <div class="flex justify-between text-xs">
+                            <span>Envío</span>
+                            <span id="cartShippingCost" class="text-brand-accent font-semibold">S/ 12.00</span>
+                        </div>
+                        <div class="flex justify-between font-bold text-base text-brand-dark pt-2 border-t border-gray-200">
+                            <span>Total a pagar</span>
+                            <span id="cartTotal" class="text-brand-accent text-xl font-serif">S/ 0.00</span>
+                        </div>
+                    </div>
+
+                    <button onclick="openCheckoutModal()" id="checkoutBtn" disabled class="w-full bg-emerald-600 hover:bg-emerald-700 disabled:bg-gray-300 text-white font-bold py-3.5 rounded-xl transition-all shadow-md flex items-center justify-center gap-2 text-sm">
+                        <i class="fa-brands fa-whatsapp text-lg"></i>
+                        <span>Finalizar Compra por WhatsApp</span>
+                    </button>
+                    
+                    <button onclick="toggleCart()" class="w-full text-center text
